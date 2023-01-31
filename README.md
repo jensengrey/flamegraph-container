@@ -11,6 +11,7 @@ This assumes your host is *also* running `ubuntu:22.04` as the kernel versions n
 # Install perf tools on the host
 
 ```
+sudo bash -c 'apt update -y && apt upgrade -y'
 sudo apt install linux-tools-$(uname -r) linux-tools-generic curl git binutils build-essential -y
 ```
 
@@ -21,9 +22,17 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 ```
 
+# Clone this repo
+
+```
+git clone https://github.com/jensengrey/flamegraph-container
+```
+
+
 # Build the docker image
 
 ```
+cd flamegraph-container
 sudo docker build -t flamegraph .
 ```
 
@@ -32,14 +41,16 @@ sudo docker build -t flamegraph .
 This records perf events across all cores for 10 seconds
 
 ```
-perf record -g --output tar-g-zstd.perf.data -- tar caf foo.tar.zstd *
+sudo perf record -g --output tar-g-lzma.perf.data -- tar -c --lzma -f include.tar.lzma /usr/include
 ```
 
 also try
 
 ```
-perf record --call-graph dwarf --output tar-dwarf-zstd.perf.data -- tar caf foo-dwarf.tar.zstd *
+perf record --call-graph dwarf --output tar-dwarf-zstd.perf.data -- tar -c --zstd -f include.tar.zstd /usr/include
 ```
+
+see below how to give perf access to all users.
 
 `--call-graph dwarf` puts more load on the system than `-g` (we should measure this) but it is more reliable.
 
@@ -49,7 +60,7 @@ perf record --call-graph dwarf --output tar-dwarf-zstd.perf.data -- tar caf foo-
 # Convert perf trace data into an svg
 
 ```
-perf-to-svg tar-g-zstd.perf.data tar-g-zstd.perf.svg
+perf-to-svg tar-g-lzma.perf.data tar-g-lzma.perf.svg
 ```
 
 ```
@@ -59,4 +70,14 @@ perf-to-svg tar-dwarf-zstd.perf.data tar-dwarf-zstd.perf.svg
 # Output
 
 ![svg-perf-trace]()
+
+
+
+
+----
+
+```
+sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
+```
+
 
