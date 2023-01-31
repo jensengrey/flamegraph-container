@@ -79,9 +79,6 @@ see below how to give perf access to all users.
 
 `--call-graph dwarf` puts more load on the system than `-g` (we should measure this) but it is more reliable.
 
-* https://trofi.github.io/posts/215-perf-and-dwarf-and-fork.html
-
-
 # Convert perf trace data to SVG
 
 ```
@@ -121,5 +118,35 @@ Recommended
 sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
 sudo sh -c "echo 0 > /proc/sys/kernel/kptr_restrict"
 ```
+
+# Better debug information from system packages
+
+Good traces require good debugging information. 
+
+* https://trofi.github.io/posts/215-perf-and-dwarf-and-fork.html
+* https://wiki.debian.org/HowToGetABacktrace
+
+```
+sudo apt-get install devscripts fakeroot gdb build-essential
+sudo apt-get build-dep <package>
+DEB_BUILD_OPTIONS="debug nostrip noopt" apt -b source <package>
+sudo dpkg -i <build artifact.deb>
+```
+
+## example
+
+*note, `apt-get` and `apt get` are distinct, we need apt-get for build-dep*
+
+```
+sudo apt-get build-dep hello
+DEB_BUILD_OPTIONS="debug nostrip noopt" apt -b source hello
+sudo dpkg -i hello_2.10-2ubuntu4_amd64.deb
+```
+
+```
+$ file /usr/bin/hello
+/usr/bin/hello: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=afd5b7bb06382b28094d490740046feac1eb0f95, for GNU/Linux 3.2.0, with debug_info, not stripped
+```
+
 
 
