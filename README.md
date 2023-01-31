@@ -126,6 +126,16 @@ Good traces require good debugging information.
 * https://trofi.github.io/posts/215-perf-and-dwarf-and-fork.html
 * https://wiki.debian.org/HowToGetABacktrace
 
+Enable `deb-src` in your `/etc/apt/sources.lst`
+
+```
+sudo vim /etc/apt/sources.list
+# %s/# deb-src/deb-src/g
+sudo apt-get update
+```
+
+## install tools to rebuild deb package from source deb
+
 ```
 sudo apt-get install devscripts fakeroot gdb build-essential
 sudo apt-get build-dep <package>
