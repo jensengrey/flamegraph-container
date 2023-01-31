@@ -160,7 +160,19 @@ $ file /usr/bin/hello
 
 Notice the `with debug_info, not stripped` at the end.
 
-# Simple HTTP Server
+# Viewing remote files
+
+## SSH Tunnel
+
+```
+# on the remote vm
+python3 -m http.server --bind 127.0.0.1 4070
+
+# from your laptop
+gcloud compute ssh --zone "us-central1-a" "<vm name>"  --project "<project>" -- -L 4070:localhost:4070
+```
+
+## Public HTTP Server
 
 ```
 sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/python3.10
@@ -169,5 +181,6 @@ sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/python3.10
 # someone can ready your private .ssh keys, etc
 python3 -m http.server 80
 ```
+
 
 
