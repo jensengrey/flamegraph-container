@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 RUN apt update -y && apt upgrade -y
 RUN apt install git -y
-RUN apt install linux-tools-$(uname -r) linux-tools-generic -y
+RUN apt install linux-tools-$(uname -r) linux-tools-generic binutils -y
 RUN git clone https://github.com/brendangregg/FlameGraph.git
 
 WORKDIR /FlameGraph
