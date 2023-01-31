@@ -96,18 +96,26 @@ perf-to-svg tar-dwarf-zstd.perf.data tar-dwarf-zstd.perf.svg
 
 ## zstd, dwarf
 
-![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-zstd.perf.svg)
+![zstd-dwarf perf trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-zstd.perf.svg)
+
+## zstd, -g
+
+![zstd-g perf trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-g-zstd.perf.svg)
 
 ## lzma, -g
 
-![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-g-lzma.perf.svg)
+![lzma-g perf trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-g-lzma.perf.svg)
 
 ## lzma, dwarf
 
-![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-lzma.perf.svg)
+![lzma-dwarf perf trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-lzma.perf.svg)
 
 
 # Enable capturing perf trace w/o sudo
+
+This also prevents your entire command from running as root and the files it writes from being owned by root.
+
+Recommended
 
 ```
 sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
