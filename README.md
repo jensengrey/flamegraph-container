@@ -158,5 +158,6 @@ $ file /usr/bin/hello
 /usr/bin/hello: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=afd5b7bb06382b28094d490740046feac1eb0f95, for GNU/Linux 3.2.0, with debug_info, not stripped
 ```
 
+Notice the `with debug_info, not stripped` at the end.
 
 
