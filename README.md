@@ -46,7 +46,7 @@ perf record --call-graph dwarf --output tar-dwarf-zstd.perf.data -- tar caf foo-
 * https://trofi.github.io/posts/215-perf-and-dwarf-and-fork.html
 
 
-# Convert `system.perf.data` into an svg
+# Convert perf trace data into an svg
 
 ```
 perf-to-svg tar-g-zstd.perf.data tar-g-zstd.perf.svg
