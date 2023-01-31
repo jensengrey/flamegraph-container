@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eux
+
+sudo docker run --tmpfs /tmp -v $(pwd):/data -u $(id -u):$(id -g) --rm flamegraph "$@"
