@@ -6,7 +6,24 @@ This assumes your host is *also* running `ubuntu:22.04` as the kernel versions n
 
 # Create a new Ubuntu 22.04 VM
 
-... exercise for the reader ...
+```
+PROJECTID=<your project id>
+gcloud compute instances create flamegraph-demo  \
+    --project=$PROJECTID \
+    --zone=us-west1-b \
+    --machine-type=t2d-standard-4 \
+    --network-interface=network-tier=PREMIUM,subnet=default \
+    --maintenance-policy=MIGRATE \
+    --provisioning-model=STANDARD \
+    --no-service-account \
+    --no-scopes \
+    --tags=http-server,https-server \
+    --create-disk=auto-delete=yes,boot=yes,device-name=flamegraph-demo,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230114,mode=rw,size=30,type=projects/$PROJECTID/zones/us-west1-b/diskTypes/pd-ssd \
+    --no-shielded-secure-boot \
+    --shielded-vtpm \
+    --shielded-integrity-monitoring \
+    --reservation-affinity=any
+```
 
 # Install perf tools on the host
 
@@ -34,6 +51,9 @@ git clone https://github.com/jensengrey/flamegraph-container
 ```
 cd flamegraph-container
 sudo docker build -t flamegraph .
+mkdir ~/bin
+cp perf-to-svg ~/bin
+source ~/.profile # puts ~/bin in your path
 ```
 
 # Record a perf trace
@@ -57,7 +77,7 @@ see below how to give perf access to all users.
 * https://trofi.github.io/posts/215-perf-and-dwarf-and-fork.html
 
 
-# Convert perf trace data into an svg
+# Convert perf trace data to SVG
 
 ```
 perf-to-svg tar-g-lzma.perf.data tar-g-lzma.perf.svg
@@ -72,9 +92,7 @@ perf-to-svg tar-dwarf-zstd.perf.data tar-dwarf-zstd.perf.svg
 ![svg-perf-trace]()
 
 
-
-
-----
+# Enable capturing perf trace w/o sudo
 
 ```
 sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
