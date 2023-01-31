@@ -4,6 +4,10 @@ Demo of running [perf](https://www.brendangregg.com/perf.html) and [FlameGraph.p
 
 This assumes your host is *also* running `ubuntu:22.04` as the kernel versions need to match.
 
+This guide is designed to run you through installing a system from scratch and capturing perf traces and converting them into SVG. 
+
+https://jvns.ca/perf-cheat-sheet.pdf
+
 # Create a new Ubuntu 22.04 VM
 
 ```
@@ -89,13 +93,24 @@ perf-to-svg tar-dwarf-zstd.perf.data tar-dwarf-zstd.perf.svg
 
 # Output
 
-![svg-perf-trace]()
+## zstd, dwarf
+
+![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-zstd.perf.svg)
+
+## lzma, -g
+
+![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-g-lzma.perf.svg)
+
+## lzma, dwarf
+
+![svg-perf-trace](https://raw.githubusercontent.com/jensengrey/flamegraph-container/main/sample-data/tar-dwarf-lzma.perf.svg)
 
 
 # Enable capturing perf trace w/o sudo
 
 ```
 sudo sh -c "echo -1 > /proc/sys/kernel/perf_event_paranoid"
+sudo sh -c "echo 0 > /proc/sys/kernel/kptr_restrict"
 ```
 
 
