@@ -160,4 +160,14 @@ $ file /usr/bin/hello
 
 Notice the `with debug_info, not stripped` at the end.
 
+# Simple HTTP Server
+
+```
+sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/python3.10
+
+# do not run directly from your home directory
+# someone can ready your private .ssh keys, etc
+python3 -m http.server 80
+```
+
 
