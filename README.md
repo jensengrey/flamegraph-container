@@ -11,9 +11,9 @@ https://jvns.ca/perf-cheat-sheet.pdf
 # Create a new Ubuntu 22.04 VM
 
 ```
-PROJECTID=<your project id>
+PROJECT_ID=$(gcloud config get-value project)
 gcloud compute instances create flamegraph-demo  \
-    --project=$PROJECTID \
+    --project=$PROJECT_ID \
     --zone=us-west1-b \
     --machine-type=t2d-standard-4 \
     --network-interface=network-tier=PREMIUM,subnet=default \
@@ -22,11 +22,12 @@ gcloud compute instances create flamegraph-demo  \
     --no-service-account \
     --no-scopes \
     --tags=http-server,https-server \
-    --create-disk=auto-delete=yes,boot=yes,device-name=flamegraph-demo,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230114,mode=rw,size=30,type=projects/$PROJECTID/zones/us-west1-b/diskTypes/pd-ssd \
+    --create-disk=auto-delete=yes,boot=yes,device-name=flamegraph-demo,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230114,mode=rw,size=30,type=projects/$PROJECT_ID/zones/us-west1-b/diskTypes/pd-ssd \
     --no-shielded-secure-boot \
     --shielded-vtpm \
     --shielded-integrity-monitoring \
     --reservation-affinity=any
+
 ```
 
 # Install perf tools on the host
